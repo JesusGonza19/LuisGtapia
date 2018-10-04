@@ -11,29 +11,35 @@
 |
 */
 
-//__________________________________________________________________________________________________________________
+/*
+*/
 
-//Prueba con controlador
+/*Prueba con controlador
+*/
 
 Route::get('controlador','prueba@index');
     
-//__________________________________________________________________________________________________________________
+/*
+*/
 
-// Prueba de rutas con parametros 04/10/2018
+/* Prueba de rutas con parametros 04/10/2018
+*/
 
 Route::get('nombre/{nombre}', function ($nombre) {
     return "mi nombre es:".$nombre;
 });
 
-//__________________________________________________________________________________________________________________
+/*
+*/
 
-//Prueba de rutas con parametros fijos 04/10/2018
-
+/*Prueba de rutas con parametros fijos 04/10/2018
+*/
 Route::get('edad/{edad?}', function ($edad = '20') {
     return $edad;
 });
 
-//__________________________________________________________________________________________________________________
+/*
+*/
 
 Route::get('/', function () {
     return view('welcome');
