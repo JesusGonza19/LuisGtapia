@@ -11,6 +11,16 @@
 |
 */
 
+//Prueba de rutas 04/10/2018
+
+Route::get('nombre/{nombre}', function ($nombre) {
+    return "mi nombre es:".$nombre;
+});
+
+// Prueba de rutas 04/10/2018
+
+
 Route::get('/', function () {
     return view('welcome');
 });
+
