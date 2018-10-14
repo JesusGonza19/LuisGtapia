@@ -8,9 +8,21 @@ use Luisgtapia\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+
+/*Se agregaron estas tres clases para un mejor funcionamiento
+*/
+
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Http\Request;
+use Session;
+
+/*
+*/
+
+
 class AuthController extends Controller
 {
-    /*
+/*
     |--------------------------------------------------------------------------
     | Registration & Login Controller
     |--------------------------------------------------------------------------
@@ -24,20 +36,15 @@ class AuthController extends Controller
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     /**
-     * Where to redirect users after login / registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/';
-
-    /**
      * Create a new authentication controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Guard $auth)
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->auth = $auth;
+        $this->middleware('guest', ['except' => 'getLogout']);
+      
     }
 
     /**
@@ -46,27 +53,110 @@ class AuthController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+   
+
+
+    /* Login (Con esto lo que hacemos es que nos mande a la vista y nos muestre el formuario de Login )
+    */
+
+       protected function getLogin()
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
+        return view("login");
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
-     */
-    protected function create(array $data)
+    /*
+    */
+       
+
+    /*  Aqui es para verificar la informacion y los certificados y si estan bien nos mandaran a nuestro home o index
+    */
+
+        public function postLogin(Request $request)
+   {
+    $this->validate($request, [
+        'email' => 'required',
+        'password' => 'required',
+    ]);
+
+
+    $credentials = $request->only('email', 'password');
+
+    if ($this->auth->attempt($credentials, $request->has('remember')))
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        return view("home");
     }
+
+    return "Credenciales incorrectas";
+
+    }
+
+
+    /*
+    */
+
+
+
+    /* login (Registro) aqui se introduce el nuevo usuario, lo guarda y notifica el status
+    */
+    
+
+
+        protected function getRegister()
+    {
+        return view("registro");
+    }
+
+
+        
+
+        protected function postRegister(Request $request)
+
+   {
+    $this->validate($request, [
+        'name' => 'required',
+        'email' => 'required',
+        'password' => 'required',
+    ]);
+
+
+    $data = $request;
+
+
+    $user=new User;
+    $user->name=$data['name'];
+    $user->email=$data['email'];
+    $user->password=bcrypt($data['password']);
+
+
+    if($user->save()){
+
+         return "se ha registrado correctamente el usuario";
+               
+    }
+   
+
+   
+
+}
+
+    /*
+    */
+
+
+    /* Esto es para la salida 
+    */
+
+protected function getLogout()
+    {
+        $this->auth->logout();
+
+        Session::flush();
+
+        return redirect('login');
+    }
+
+
+    /*
+    */
+
 }

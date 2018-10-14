@@ -14,8 +14,27 @@
 /*
 */
 
-/* Redireccionamiento o enrutamiento de la plantilla boostrap admin 4 (creado las rutas)
+
+
+
+/* Estos son parametros que siempre se configuran para la autentificacion del Login 
 */
+
+Route::get('login', 'Auth\AuthController@getLogin');
+Route::post('login', ['as' =>'login', 'uses' => 'Auth\AuthController@postLogin']);
+Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@getLogout']);
+ 
+// Registration routes...
+Route::get('register', 'Auth\AuthController@getRegister');
+Route::post('register', ['as' => 'auth/register', 'uses' => 'Auth\AuthController@postRegister']);
+Route::get('/', 'HomeController@index');
+Route::get('home', 'HomeController@index');
+
+/*
+*/
+
+
+/* Redireccionamiento o enrutamiento de la plantilla boostrap admin 4 (creado las rutas)
 
 Route::get('home', function () {
     return view('home');
@@ -25,13 +44,9 @@ Route::get('login', function () {
     return view('login');
 });
 
-
+//Esto se comento para el siguiente procedimiento en la configuracion del Login
 
 /*
-*/
-
-
-
 
 
 /* Prueba Declarar controlador RESTfull
