@@ -14,6 +14,26 @@
 /*
 */
 
+/* Redireccionamiento o enrutamiento de la plantilla boostrap admin 4 (creado las rutas)
+*/
+
+Route::get('home', function () {
+    return view('home');
+});
+
+Route::get('login', function () {
+    return view('login');
+});
+
+
+
+/*
+*/
+
+
+
+
+
 /* Prueba Declarar controlador RESTfull
 */
 
