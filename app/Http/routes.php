@@ -14,10 +14,10 @@
 /*
 */
 
-/* Declarar controlador RESTfull
+/* Prueba Declarar controlador RESTfull
 */
 
-Route::resource('escuelas' ,'EscuelasController');
+Route::resource('escuela' ,'EscuelaController');
 
 /*
 */
