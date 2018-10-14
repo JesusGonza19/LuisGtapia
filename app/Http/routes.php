@@ -14,6 +14,14 @@
 /*
 */
 
+/* Declarar controlador RESTfull
+*/
+
+Route::resource('photo','PhotoController');
+
+/*
+*/
+
 /*Prueba con controlador
 */
 
